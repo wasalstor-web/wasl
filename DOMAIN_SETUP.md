@@ -64,6 +64,13 @@ TTL: 300
 wasl.store
 ```
 
+### 5. إعداد Jekyll | Jekyll Configuration
+تم إضافة ملف `_config.yml` لتحسين إعدادات GitHub Pages:
+- تكوين النطاق المخصص
+- إنفاذ SSL تلقائياً
+- تحسين SEO والفهرسة
+- إعدادات اللغة العربية
+
 ---
 
 ## التحقق والاختبار | Verification and Testing
