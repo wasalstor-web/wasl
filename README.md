@@ -1,7 +1,5 @@
 # Wasalstor Web
 
-# Wasalstor Web
-
 ## شرح أساسي للمشروع
 Wasalstor Web هو مشروع يهدف إلى تقديم منصة للنقل والتوصيل.
 
