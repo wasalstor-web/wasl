@@ -1,0 +1,37 @@
+# Jekyll Configuration for wasl.store
+title: "منصة وسل | WASL Platform"
+description: "منصة وسل للنقل والتوصيل - WASL Transportation and Delivery Platform"
+url: "https://wasl.store"
+baseurl: ""
+
+# Site metadata
+lang: ar
+author: "Wasalstor"
+timezone: Asia/Riyadh
+
+# GitHub Pages settings
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
+# SEO settings
+twitter:
+  card: summary
+  site: "@wasalstor"
+
+# Custom domain configuration
+domain: wasl.store
+enforce_ssl: true
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+# Exclude from processing
+exclude:
+  - README.md
+  - DOMAIN_SETUP.md
+  - verify-domain.sh
+  - .gitignore
+  - .github/
