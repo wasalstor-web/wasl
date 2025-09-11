@@ -5,10 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>وســـل | WASL</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f7; text-align: center; margin-top: 10vh; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f7; text-align: center; margin-top: 5vh; }
         h1 { color: #3b5d7c; }
+        h2 { color: #3b5d7c; margin-top: 2em; }
         p { font-size: 1.3em; color: #444; }
         .logo { font-size: 3em; color: #1976d2; margin-bottom: 0.5em; }
+        .delay-section { background: white; border-radius: 10px; padding: 2em; margin: 2em auto; max-width: 600px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .delay-form { text-align: right; }
+        .form-group { margin: 1em 0; }
+        label { display: block; margin-bottom: 0.5em; font-weight: bold; color: #3b5d7c; }
+        select, input[type="text"] { width: 100%; padding: 0.8em; border: 2px solid #ddd; border-radius: 5px; font-size: 1em; direction: rtl; }
+        button { background: #1976d2; color: white; padding: 1em 2em; border: none; border-radius: 5px; font-size: 1em; cursor: pointer; margin-top: 1em; }
+        button:hover { background: #1565c0; }
+        .delay-result { margin-top: 1em; padding: 1em; background: #f5f5f5; border-radius: 5px; display: none; }
+        .status-display { background: #e3f2fd; padding: 1em; border-radius: 5px; margin-top: 1em; }
     </style>
 </head>
 <body>
@@ -16,5 +26,121 @@
     <h1>مرحباً بك في منصة وســـل</h1>
     <p>تم نشر الموقع بنجاح باستخدام GitHub Pages.<br>يمكنك الآن تخصيص هذه الصفحة أو استبدالها بموقعك الفعلي.</p>
     <p><b>wasalstor-web/wasl</b></p>
+    
+    <div class="delay-section">
+        <h2>🕐 تتبع حالة التأخير</h2>
+        <div class="delay-form">
+            <div class="form-group">
+                <label for="shipment-id">رقم الشحنة:</label>
+                <input type="text" id="shipment-id" placeholder="أدخل رقم الشحنة" />
+            </div>
+            
+            <div class="form-group">
+                <label for="delay-reason">سبب التأخير:</label>
+                <select id="delay-reason">
+                    <option value="">اختر سبب التأخير</option>
+                    <option value="traffic">الازدحام المروري</option>
+                    <option value="weather">الأحوال الجوية السيئة</option>
+                    <option value="vehicle">عطل في المركبة</option>
+                    <option value="address">مشكلة في العنوان</option>
+                    <option value="customer">العميل غير متاح</option>
+                    <option value="customs">إجراءات جمركية</option>
+                    <option value="loading">تأخير في التحميل</option>
+                    <option value="other">أسباب أخرى</option>
+                </select>
+            </div>
+            
+            <button onclick="reportDelay()">الإبلاغ عن التأخير</button>
+            <button onclick="checkDelayStatus()" style="background: #4caf50; margin-right: 1em;">فحص حالة الشحنة</button>
+        </div>
+        
+        <div id="delay-result" class="delay-result">
+            <h3>تفاصيل التأخير</h3>
+            <div id="delay-details"></div>
+        </div>
+        
+        <div class="status-display">
+            <h3>📊 حالات التأخير الشائعة</h3>
+            <p>• الازدحام المروري - 35%</p>
+            <p>• العميل غير متاح - 25%</p>
+            <p>• الأحوال الجوية - 20%</p>
+            <p>• أسباب أخرى - 20%</p>
+        </div>
+    </div>
+
+    <script>
+        function reportDelay() {
+            const shipmentId = document.getElementById('shipment-id').value;
+            const delayReason = document.getElementById('delay-reason').value;
+            const resultDiv = document.getElementById('delay-result');
+            const detailsDiv = document.getElementById('delay-details');
+            
+            if (!shipmentId || !delayReason) {
+                alert('يرجى إدخال رقم الشحنة وسبب التأخير');
+                return;
+            }
+            
+            const reasonText = {
+                'traffic': 'الازدحام المروري',
+                'weather': 'الأحوال الجوية السيئة',
+                'vehicle': 'عطل في المركبة',
+                'address': 'مشكلة في العنوان',
+                'customer': 'العميل غير متاح',
+                'customs': 'إجراءات جمركية',
+                'loading': 'تأخير في التحميل',
+                'other': 'أسباب أخرى'
+            };
+            
+            const currentTime = new Date().toLocaleString('ar-EG');
+            
+            detailsDiv.innerHTML = `
+                <p><strong>رقم الشحنة:</strong> ${shipmentId}</p>
+                <p><strong>سبب التأخير:</strong> ${reasonText[delayReason]}</p>
+                <p><strong>وقت الإبلاغ:</strong> ${currentTime}</p>
+                <p><strong>الحالة:</strong> تم تسجيل التأخير بنجاح ✅</p>
+                <p style="color: #1976d2;">سيتم إشعار العميل بحالة التأخير</p>
+            `;
+            
+            resultDiv.style.display = 'block';
+        }
+        
+        function checkDelayStatus() {
+            const shipmentId = document.getElementById('shipment-id').value;
+            const resultDiv = document.getElementById('delay-result');
+            const detailsDiv = document.getElementById('delay-details');
+            
+            if (!shipmentId) {
+                alert('يرجى إدخال رقم الشحنة');
+                return;
+            }
+            
+            // محاكاة البحث عن حالة الشحنة
+            const mockStatuses = [
+                'في الطريق - بدون تأخير',
+                'تأخير بسبب الازدحام المروري - 30 دقيقة',
+                'تأخير بسبب العميل غير متاح - 45 دقيقة',
+                'تم التسليم بنجاح'
+            ];
+            
+            const randomStatus = mockStatuses[Math.floor(Math.random() * mockStatuses.length)];
+            const currentTime = new Date().toLocaleString('ar-EG');
+            
+            detailsDiv.innerHTML = `
+                <p><strong>رقم الشحنة:</strong> ${shipmentId}</p>
+                <p><strong>الحالة الحالية:</strong> ${randomStatus}</p>
+                <p><strong>آخر تحديث:</strong> ${currentTime}</p>
+                <p><strong>الموقع التقديري:</strong> في طريقه إلى العنوان المحدد 📍</p>
+            `;
+            
+            resultDiv.style.display = 'block';
+        }
+        
+        // إضافة تفاعل عند تحديد سبب التأخير
+        document.getElementById('delay-reason').addEventListener('change', function() {
+            if (this.value) {
+                console.log('تم اختيار سبب التأخير:', this.value);
+            }
+        });
+    </script>
 </body>
 </html>
