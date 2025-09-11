@@ -1,0 +1,24 @@
+[build]
+  # No build command needed for static HTML
+  command = ""
+  publish = "."
+
+[[headers]]
+  # Apply security headers to all routes
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  # Cache HTML files for 1 hour
+  for = "*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+# Optional: Redirect /home to root
+[[redirects]]
+  from = "/home"
+  to = "/"
+  status = 301
