@@ -9,9 +9,41 @@
         h1 { color: #3b5d7c; }
         p { font-size: 1.3em; color: #444; }
         .logo { font-size: 3em; color: #1976d2; margin-bottom: 0.5em; }
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #d32f2f;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .logout-btn:hover {
+            background: #c62828;
+        }
     </style>
 </head>
 <body>
+    <script>
+        // Check if user is logged in
+        if (localStorage.getItem('wasl_logged_in') !== 'true') {
+            // Redirect to login page if not logged in
+            window.location.href = 'login.html';
+        }
+        
+        // Logout function
+        function logout() {
+            localStorage.removeItem('wasl_logged_in');
+            localStorage.removeItem('wasl_login_time');
+            window.location.href = 'login.html';
+        }
+    </script>
+    
+    <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+    
     <div class="logo">🚚</div>
     <h1>مرحباً بك في منصة وســـل</h1>
     <p>تم نشر الموقع بنجاح باستخدام GitHub Pages.<br>يمكنك الآن تخصيص هذه الصفحة أو استبدالها بموقعك الفعلي.</p>
