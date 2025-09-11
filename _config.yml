@@ -1,0 +1,17 @@
+title: "وسل - منصة الحلول اللوجستية الذكية"
+description: "منصة وسل - حلول النقل والتوصيل الذكية في المملكة العربية السعودية"
+url: "https://wasalstor-web.github.io"
+baseurl: "/wasl"
+lang: ar
+
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+exclude:
+  - README.md
+  - .gitignore
+  - LICENSE
+
+include:
+  - robots.txt
