@@ -68,6 +68,12 @@ wasl.store
 
 ## التحقق والاختبار | Verification and Testing
 
+### 0. عرض الإعدادات المطلوبة | Show Required Configuration
+```bash
+# عرض إعدادات DNS المطلوبة
+./show-dns-config.sh
+```
+
 ### 1. فحص إعدادات DNS | Check DNS Settings
 ```bash
 # فحص سجلات A
@@ -75,6 +81,9 @@ nslookup wasl.store
 
 # فحص سجل CNAME للـ www
 nslookup www.wasl.store
+
+# تشغيل سكريبت التحقق الشامل
+./verify-domain.sh
 ```
 
 ### 2. فحص شهادة SSL | Check SSL Certificate
@@ -95,14 +104,91 @@ nslookup www.wasl.store
 #### لا يعمل النطاق | Domain Not Working
 - **السبب**: إعدادات DNS غير صحيحة
 - **الحل**: تحقق من سجلات DNS والانتظار حتى 24-48 ساعة للانتشار
+- **خطوات التشخيص**:
+  ```bash
+  # فحص سجلات A
+  nslookup wasl.store
+  # أو استخدم
+  dig wasl.store A
+  ```
 
 #### مشكلة شهادة SSL | SSL Certificate Issues
 - **السبب**: لم يتم التحقق من النطاق بعد
 - **الحل**: انتظر وأعد المحاولة، تأكد من صحة إعدادات DNS
+- **ملاحظة**: قد تستغرق شهادة SSL من 5-10 دقائق للتفعيل بعد إعداد DNS
 
 #### رسالة "Domain's DNS record could not be retrieved"
 - **السبب**: إعدادات DNS غير مكتملة
 - **الحل**: تأكد من إضافة جميع سجلات A المطلوبة
+- **التحقق**: استخدم سكريبت التحقق `./verify-domain.sh`
+
+#### رسالة "REFUSED" في DNS
+- **السبب**: النطاق غير مُسجل أو DNS غير مُعد
+- **الحل**: 
+  1. تأكد من تسجيل النطاق عند مزود الخدمة
+  2. قم بإعداد DNS servers الصحيحة
+  3. أضف السجلات المطلوبة
+
+#### www لا يعمل | www subdomain not working
+- **السبب**: سجل CNAME مفقود أو غير صحيح
+- **الحل**: أضف سجل CNAME:
+  ```
+  Type: CNAME
+  Name: www
+  Value: wasalstor-web.github.io.
+  TTL: 300
+  ```
+
+### خطوات التشخيص المتقدم | Advanced Diagnostics
+
+#### 1. فحص انتشار DNS عالمياً | Check Global DNS Propagation
+```bash
+# فحص من عدة خوادم DNS
+nslookup wasl.store 8.8.8.8          # Google DNS
+nslookup wasl.store 1.1.1.1          # Cloudflare DNS
+nslookup wasl.store 208.67.222.222   # OpenDNS
+```
+
+#### 2. فحص تاريخ انتهاء النطاق | Check Domain Expiration
+```bash
+whois wasl.store | grep -i expir
+```
+
+#### 3. فحص Name Servers | Check Name Servers
+```bash
+nslookup -type=NS wasl.store
+```
+
+#### 4. اختبار الاتصال المباشر | Test Direct Connection
+```bash
+# فحص الاتصال بـ GitHub Pages
+curl -I https://wasalstor-web.github.io
+```
+
+### حلول سريعة | Quick Fixes
+
+#### إذا كانت السجلات صحيحة ولكن لا تعمل | If records are correct but not working:
+1. **امسح cache DNS المحلي**:
+   ```bash
+   # على Linux/Mac
+   sudo systemctl flush-dns
+   # أو
+   sudo dscacheutil -flushcache
+   ```
+
+2. **جرب DNS مختلف مؤقتاً**:
+   - استخدم 8.8.8.8 (Google) أو 1.1.1.1 (Cloudflare)
+
+3. **تحقق من إعدادات GitHub Pages**:
+   - تأكد من تفعيل Custom Domain في Settings > Pages
+   - تأكد من وجود ملف CNAME في المستودع
+
+#### إذا ظهرت أخطاء SSL | If SSL errors appear:
+1. **انتظر**: قد تستغرق الشهادة حتى 24 ساعة
+2. **تحقق من HTTPS enforcement**: قم بإيقافه مؤقتاً ثم أعد تفعيله
+3. **استخدم أدوات فحص SSL**:
+   - https://www.ssllabs.com/ssltest/
+   - https://www.sslshopper.com/ssl-checker.html
 
 ---
 
@@ -123,6 +209,46 @@ nslookup www.wasl.store
 - [GitHub Pages Documentation](https://docs.github.com/en/pages)
 - [GitHub Pages Custom Domain Guide](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site)
 - [DNS Record Types Explained](https://www.cloudflare.com/learning/dns/dns-records/)
+
+---
+
+## قائمة مراجعة استكشاف الأخطاء | Troubleshooting Checklist
+
+### ✅ قبل البدء | Before Starting:
+- [ ] تم تسجيل النطاق وهو نشط
+- [ ] لديك صلاحية تعديل إعدادات DNS
+- [ ] تحققت من إعدادات GitHub Pages
+
+### 🔍 فحص DNS | DNS Check:
+- [ ] تم إضافة جميع سجلات A الأربعة
+- [ ] تم إضافة سجل CNAME للـ www
+- [ ] Name Servers صحيحة
+- [ ] انتظرت على الأقل 15 دقيقة بعد التغيير
+
+### 🌐 فحص الاتصال | Connectivity Check:
+- [ ] `nslookup wasl.store` يُرجع عناوين IP صحيحة
+- [ ] `nslookup www.wasl.store` يُرجع wasalstor-web.github.io
+- [ ] `https://wasl.store` يعمل
+- [ ] `https://www.wasl.store` يُوجه إلى wasl.store
+
+### 🔧 إذا لم يعمل شيء | If Nothing Works:
+1. **شغّل سكريبت التحقق**:
+   ```bash
+   ./verify-domain.sh
+   ```
+
+2. **تحقق من إعدادات GitHub**:
+   - Settings > Pages > Custom domain: `wasl.store`
+   - ملف CNAME موجود في المستودع
+
+3. **اتصل بمزود النطاق**:
+   - تأكد من أن النطاق نشط
+   - اطلب مساعدة في إعداد DNS
+
+### 📞 الحصول على المساعدة | Getting Help:
+- راجع [GitHub Pages Documentation](https://docs.github.com/en/pages)
+- استخدم [GitHub Community](https://github.community/)
+- تحقق من [GitHub Status](https://www.githubstatus.com/)
 
 ---
 
