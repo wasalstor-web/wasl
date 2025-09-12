@@ -1,27 +1,612 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="منصة وسل - منصة النقل والتوصيل">
-    <meta name="keywords" content="وسل، نقل، توصيل، WASL">
+    <meta name="description" content="منصة وسل - لوحة تحكم إدارة الراوترات وحصص الإنترنت">
+    <meta name="keywords" content="وسل، راوتر، إنترنت، حصة، إدارة، WASL">
     <meta name="author" content="Wasalstor">
-    <meta property="og:title" content="منصة وسل | WASL">
-    <meta property="og:description" content="منصة وسل - منصة النقل والتوصيل">
+    <meta property="og:title" content="لوحة تحكم وسل | WASL Dashboard">
+    <meta property="og:description" content="منصة وسل - لوحة تحكم إدارة الراوترات وحصص الإنترنت">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://wasl.store">
-    <title>وســـل | WASL</title>
+    <title>لوحة تحكم وســـل | WASL Router Dashboard</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f7; text-align: center; margin-top: 10vh; }
-        h1 { color: #3b5d7c; }
-        p { font-size: 1.3em; color: #444; }
-        .logo { font-size: 3em; color: #1976d2; margin-bottom: 0.5em; }
+        /* استيراد الخطوط العربية */
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 3em;
+            margin-bottom: 10px;
+            animation: pulse 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .dashboard-content {
+            padding: 40px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .stat-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #1976d2;
+        }
+        
+        .router-management {
+            background: #fafafa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .router-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .router-table th {
+            background: linear-gradient(135deg, #3b5d7c 0%, #2c4b6b 100%);
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1em;
+        }
+        
+        .router-table td {
+            padding: 18px 15px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+        
+        .router-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .router-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .router-table tr:hover {
+            background: #e3f2fd;
+        }
+        
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-online {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border: 2px solid #4caf50;
+        }
+        
+        .status-offline {
+            background: #ffebee;
+            color: #c62828;
+            border: 2px solid #f44336;
+        }
+        
+        .status-warning {
+            background: #fff3e0;
+            color: #ef6c00;
+            border: 2px solid #ff9800;
+        }
+        
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+            margin: 5px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-low { background: linear-gradient(90deg, #4caf50, #8bc34a); }
+        .progress-medium { background: linear-gradient(90deg, #ff9800, #ffc107); }
+        .progress-high { background: linear-gradient(90deg, #f44336, #ff5722); }
+        
+        .quota-input {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9em;
+            text-align: center;
+            width: 80px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .quota-input:focus {
+            outline: none;
+            border-color: #1976d2;
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            margin: 0 5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1976d2, #1565c0);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1565c0, #0d47a1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(25, 118, 210, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #757575, #616161);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #616161, #424242);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(117, 117, 117, 0.3);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #d32f2f, #b71c1c);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.3);
+        }
+        
+        .router-name {
+            font-weight: 600;
+            color: #1976d2;
+        }
+        
+        .usage-text {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* تعليقات تطويرية - Development Comments Section */
+        .dev-comments {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+        
+        .dev-comments h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .dev-comments ul {
+            margin-right: 20px;
+        }
+        
+        .dev-comments li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        /* تصميم متجاوب */
+        @media (max-width: 768px) {
+            .dashboard-content {
+                padding: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .router-table {
+                font-size: 0.9em;
+            }
+            
+            .router-table th, .router-table td {
+                padding: 12px 8px;
+            }
+            
+            .btn {
+                padding: 8px 15px;
+                font-size: 0.8em;
+            }
+            
+            .quota-input {
+                width: 70px;
+                padding: 6px 8px;
+            }
+        }
+        
+        /* تحسينات إضافية للأداء والتفاعل */
+        .router-table tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        .icon-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
-    <div class="logo">🚚</div>
-    <h1>مرحباً بك في منصة وســـل</h1>
-    <p>تم نشر الموقع بنجاح على الدومين.<br>الموقع الآن متاح عبر النطاق المخصص.</p>
-    <p><b>wasl.store</b></p>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🌐</div>
+            <h1>لوحة تحكم إدارة الراوترات</h1>
+            <p>إدارة شاملة لحصص الإنترنت ومراقبة حالة الراوترات</p>
+        </div>
+        
+        <div class="dashboard-content">
+            <!-- إحصائيات سريعة -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🔌</div>
+                    <div class="stat-title">إجمالي الراوترات</div>
+                    <div class="stat-value">8</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-title">متصل</div>
+                    <div class="stat-value">6</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚠️</div>
+                    <div class="stat-title">منقطع</div>
+                    <div class="stat-value">2</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-title">الاستهلاك الإجمالي</div>
+                    <div class="stat-value">245 GB</div>
+                </div>
+            </div>
+            
+            <!-- جدول إدارة الراوترات -->
+            <div class="router-management">
+                <h2 class="section-title">إدارة الراوترات وحصص الإنترنت</h2>
+                
+                <table class="router-table">
+                    <thead>
+                        <tr>
+                            <th>اسم الراوتر</th>
+                            <th>الحصة المحددة</th>
+                            <th>الاستهلاك الحالي</th>
+                            <th>معدل الاستخدام</th>
+                            <th>الحالة</th>
+                            <th>تعديل الحصة</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="router-name">راوتر المكتب الرئيسي</td>
+                            <td>50 GB</td>
+                            <td>
+                                32.5 GB
+                                <div class="progress-bar">
+                                    <div class="progress-fill progress-medium" style="width: 65%;"></div>
+                                </div>
+                                <div class="usage-text">65% مستخدم</div>
+                            </td>
+                            <td>2.1 MB/s</td>
+                            <td><span class="status-badge status-online">متصل</span></td>
+                            <td>
+                                <input type="number" class="quota-input" value="50" min="1" max="1000">
+                                GB
+                            </td>
+                            <td>
+                                <button class="btn btn-primary">تحديث</button>
+                                <button class="btn btn-secondary">إعادة تشغيل</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="router-name">راوتر قسم التطوير</td>
+                            <td>100 GB</td>
+                            <td>
+                                78.2 GB
+                                <div class="progress-bar">
+                                    <div class="progress-fill progress-high" style="width: 78%;"></div>
+                                </div>
+                                <div class="usage-text">78% مستخدم</div>
+                            </td>
+                            <td>5.8 MB/s</td>
+                            <td><span class="status-badge status-online">متصل</span></td>
+                            <td>
+                                <input type="number" class="quota-input" value="100" min="1" max="1000">
+                                GB
+                            </td>
+                            <td>
+                                <button class="btn btn-primary">تحديث</button>
+                                <button class="btn btn-secondary">إعادة تشغيل</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="router-name">راوتر قاعة الاجتماعات</td>
+                            <td>25 GB</td>
+                            <td>
+                                8.7 GB
+                                <div class="progress-bar">
+                                    <div class="progress-fill progress-low" style="width: 35%;"></div>
+                                </div>
+                                <div class="usage-text">35% مستخدم</div>
+                            </td>
+                            <td>1.2 MB/s</td>
+                            <td><span class="status-badge status-online">متصل</span></td>
+                            <td>
+                                <input type="number" class="quota-input" value="25" min="1" max="1000">
+                                GB
+                            </td>
+                            <td>
+                                <button class="btn btn-primary">تحديث</button>
+                                <button class="btn btn-secondary">إعادة تشغيل</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="router-name">راوتر الضيوف</td>
+                            <td>15 GB</td>
+                            <td>
+                                15.0 GB
+                                <div class="progress-bar">
+                                    <div class="progress-fill progress-high" style="width: 100%;"></div>
+                                </div>
+                                <div class="usage-text">100% مستخدم</div>
+                            </td>
+                            <td>0.0 MB/s</td>
+                            <td><span class="status-badge status-warning">محدود</span></td>
+                            <td>
+                                <input type="number" class="quota-input" value="15" min="1" max="1000">
+                                GB
+                            </td>
+                            <td>
+                                <button class="btn btn-primary">تحديث</button>
+                                <button class="btn btn-danger">إيقاف</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="router-name">راوتر المخزن</td>
+                            <td>10 GB</td>
+                            <td>
+                                0.0 GB
+                                <div class="progress-bar">
+                                    <div class="progress-fill progress-low" style="width: 0%;"></div>
+                                </div>
+                                <div class="usage-text">غير متصل</div>
+                            </td>
+                            <td>--</td>
+                            <td><span class="status-badge status-offline">منقطع</span></td>
+                            <td>
+                                <input type="number" class="quota-input" value="10" min="1" max="1000" disabled>
+                                GB
+                            </td>
+                            <td>
+                                <button class="btn btn-secondary" disabled>تحديث</button>
+                                <button class="btn btn-primary">تشغيل</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="router-name">راوتر الأمان</td>
+                            <td>30 GB</td>
+                            <td>
+                                12.3 GB
+                                <div class="progress-bar">
+                                    <div class="progress-fill progress-low" style="width: 41%;"></div>
+                                </div>
+                                <div class="usage-text">41% مستخدم</div>
+                            </td>
+                            <td>0.8 MB/s</td>
+                            <td><span class="status-badge status-online">متصل</span></td>
+                            <td>
+                                <input type="number" class="quota-input" value="30" min="1" max="1000">
+                                GB
+                            </td>
+                            <td>
+                                <button class="btn btn-primary">تحديث</button>
+                                <button class="btn btn-secondary">إعادة تشغيل</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- تعليقات تطويرية للمميزات المستقبلية -->
+            <div class="dev-comments">
+                <h3>📝 تعليقات تطويرية - مميزات مستقبلية</h3>
+                <ul>
+                    <li><strong>الترافيك الذكي:</strong> إضافة نظام إدارة الترافيك التلقائي لتوزيع البيانات بكفاءة حسب الأولوية والاستخدام</li>
+                    <li><strong>IPvPN:</strong> دمج خدمات الشبكات الافتراضية الخاصة للحماية والأمان المتقدم</li>
+                    <li><strong>نظام الإشعارات:</strong> تطوير نظام إشعارات فوري عند الوصول لحدود الاستهلاك أو انقطاع الاتصال</li>
+                    <li><strong>التقارير والتحليلات:</strong> إضافة لوحة تحليلات شاملة مع رسوم بيانية لمراقبة الاستهلاك عبر فترات زمنية</li>
+                    <li><strong>إدارة المستخدمين:</strong> نظام صلاحيات متقدم لإدارة وصول المستخدمين لكل راوتر</li>
+                    <li><strong>الجدولة التلقائية:</strong> إمكانية جدولة إعادة تشغيل الراوترات وتحديث الحصص تلقائياً</li>
+                    <li><strong>مراقبة الأداء:</strong> متابعة سرعة الإنترنت ومعدل الاستجابة (ping) لكل راوتر</li>
+                    <li><strong>النسخ الاحتياطي:</strong> نظام نسخ احتياطي تلقائي لإعدادات الراوترات والبيانات</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // وظائف JavaScript للتفاعل مع اللوحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // تحديث الإحصائيات بشكل دوري
+            // TODO: ربط البيانات مع API حقيقي
+            
+            // إضافة تأثيرات تفاعلية للأزرار
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // TODO: إضافة معالج للنقر على الأزرار
+                    console.log('تم النقر على:', this.textContent);
+                    
+                    // تأثير بصري للنقر
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+            
+            // مراقبة تغيير قيم الحصص
+            const quotaInputs = document.querySelectorAll('.quota-input');
+            quotaInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    // TODO: إضافة التحقق من صحة القيم وحفظ التغييرات
+                    console.log('تم تغيير الحصة إلى:', this.value);
+                });
+            });
+            
+            // تحديث البيانات التجريبية (للعرض فقط)
+            setInterval(() => {
+                // TODO: استبدال بـ API calls حقيقية
+                updateMockData();
+            }, 30000); // كل 30 ثانية
+        });
+        
+        function updateMockData() {
+            // TODO: تحديث البيانات من الخادم
+            console.log('تحديث البيانات...');
+        }
+        
+        // وظائف للمميزات المستقبلية
+        
+        // نظام الإشعارات (مُعطل حالياً)
+        function showNotification(message, type = 'info') {
+            // TODO: تطبيق نظام إشعارات متقدم
+            console.log(`إشعار [${type}]:`, message);
+        }
+        
+        // إدارة الترافيك الذكي (مُعطل حالياً)
+        function enableSmartTraffic(routerId) {
+            // TODO: تفعيل الترافيك الذكي للراوتر المحدد
+            console.log('تفعيل الترافيك الذكي للراوتر:', routerId);
+        }
+        
+        // إعداد IPvPN (مُعطل حالياً)
+        function configureVPN(routerId) {
+            // TODO: إعداد VPN للراوتر المحدد
+            console.log('إعداد VPN للراوتر:', routerId);
+        }
+    </script>
 </body>
 </html>
