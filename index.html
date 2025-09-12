@@ -12,10 +12,193 @@
     <meta property="og:url" content="https://wasl.store">
     <title>وســـل | WASL</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f7; text-align: center; margin-top: 10vh; }
-        h1 { color: #3b5d7c; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: #eef2f7; 
+            text-align: center; 
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        h1 { color: #3b5d7c; margin-top: 2rem; }
         p { font-size: 1.3em; color: #444; }
         .logo { font-size: 3em; color: #1976d2; margin-bottom: 0.5em; }
+        
+        /* Digital Clock Styles */
+        .clock-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin: 20px 0;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .clock-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .clock-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #3b5d7c;
+        }
+        
+        .timezone-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .timezone-select {
+            padding: 8px 12px;
+            border: 2px solid #1976d2;
+            border-radius: 5px;
+            background: white;
+            color: #3b5d7c;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .add-timezone-btn {
+            padding: 8px 16px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+        
+        .add-timezone-btn:hover {
+            background: #1565c0;
+        }
+        
+        .timezone-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .timezone-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .timezone-card.local {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .timezone-card.utc {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .timezone-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .timezone-location {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+        
+        .timezone-time {
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .timezone-date {
+            font-size: 12px;
+            text-align: center;
+            opacity: 0.9;
+        }
+        
+        .remove-timezone {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+        
+        .remove-timezone:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .timezone-card.default .remove-timezone {
+            display: none;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .clock-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .timezone-controls {
+                justify-content: center;
+            }
+            
+            .timezone-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timezone-time {
+                font-size: 20px;
+            }
+            
+            .clock-container {
+                padding: 15px;
+                margin: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .timezone-time {
+                font-size: 18px;
+            }
+            
+            .clock-title {
+                font-size: 1.2em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -23,5 +206,288 @@
     <h1>مرحباً بك في منصة وســـل</h1>
     <p>تم نشر الموقع بنجاح على الدومين.<br>الموقع الآن متاح عبر النطاق المخصص.</p>
     <p><b>wasl.store</b></p>
+    
+    <!-- Digital World Clock Component -->
+    <div class="clock-container">
+        <div class="clock-header">
+            <div class="clock-title">🌍 الساعة العالمية | World Clock</div>
+            <div class="timezone-controls">
+                <select id="timezoneSelect" class="timezone-select">
+                    <option value="">إضافة منطقة زمنية | Add Time Zone</option>
+                    <option value="America/New_York">New York (EST/EDT)</option>
+                    <option value="America/Los_Angeles">Los Angeles (PST/PDT)</option>
+                    <option value="Europe/London">London (GMT/BST)</option>
+                    <option value="Europe/Paris">Paris (CET/CEST)</option>
+                    <option value="Europe/Berlin">Berlin (CET/CEST)</option>
+                    <option value="Asia/Tokyo">Tokyo (JST)</option>
+                    <option value="Asia/Shanghai">Shanghai (CST)</option>
+                    <option value="Asia/Dubai">Dubai (GST)</option>
+                    <option value="Asia/Kolkata">Mumbai (IST)</option>
+                    <option value="Asia/Riyadh">Riyadh (AST)</option>
+                    <option value="Australia/Sydney">Sydney (AEDT/AEST)</option>
+                    <option value="Pacific/Auckland">Auckland (NZDT/NZST)</option>
+                    <option value="America/Sao_Paulo">São Paulo (BRT)</option>
+                    <option value="America/Mexico_City">Mexico City (CST/CDT)</option>
+                    <option value="Africa/Cairo">Cairo (EET)</option>
+                    <option value="Africa/Johannesburg">Johannesburg (SAST)</option>
+                </select>
+                <button id="addTimezoneBtn" class="add-timezone-btn">إضافة | Add</button>
+            </div>
+        </div>
+        
+        <div id="timezoneGrid" class="timezone-grid">
+            <!-- Time zone cards will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        /**
+         * Digital World Clock Component
+         * Displays current time for multiple selectable time zones
+         * Updates every second with responsive design
+         */
+        class WorldClock {
+            constructor() {
+                this.timezones = [
+                    { id: 'local', name: 'التوقيت المحلي | Local Time', timezone: 'local', removable: false, cssClass: 'local' },
+                    { id: 'utc', name: 'التوقيت العالمي | UTC', timezone: 'UTC', removable: false, cssClass: 'utc' },
+                    { id: 'riyadh', name: 'الرياض | Riyadh', timezone: 'Asia/Riyadh', removable: true, cssClass: '' }
+                ];
+                this.updateInterval = null;
+                this.init();
+            }
+
+            /**
+             * Initialize the clock component
+             */
+            init() {
+                this.renderTimezones();
+                this.startClock();
+                this.bindEvents();
+            }
+
+            /**
+             * Get display name for timezone
+             */
+            getTimezoneDisplayName(timezone) {
+                const names = {
+                    'America/New_York': 'نيويورك | New York',
+                    'America/Los_Angeles': 'لوس أنجلوس | Los Angeles', 
+                    'Europe/London': 'لندن | London',
+                    'Europe/Paris': 'باريس | Paris',
+                    'Europe/Berlin': 'برلين | Berlin',
+                    'Asia/Tokyo': 'طوكيو | Tokyo',
+                    'Asia/Shanghai': 'شنغهاي | Shanghai',
+                    'Asia/Dubai': 'دبي | Dubai',
+                    'Asia/Kolkata': 'مومباي | Mumbai',
+                    'Asia/Riyadh': 'الرياض | Riyadh',
+                    'Australia/Sydney': 'سيدني | Sydney',
+                    'Pacific/Auckland': 'أوكلاند | Auckland',
+                    'America/Sao_Paulo': 'ساو باولو | São Paulo',
+                    'America/Mexico_City': 'مكسيكو سيتي | Mexico City',
+                    'Africa/Cairo': 'القاهرة | Cairo',
+                    'Africa/Johannesburg': 'جوهانسبرغ | Johannesburg'
+                };
+                return names[timezone] || timezone;
+            }
+
+            /**
+             * Format time for display
+             */
+            formatTime(date, timezone) {
+                if (timezone === 'local') {
+                    return {
+                        time: date.toLocaleTimeString('en-US', { 
+                            hour12: false,
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit'
+                        }),
+                        date: date.toLocaleDateString('en-US', {
+                            weekday: 'short',
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric'
+                        })
+                    };
+                }
+                
+                const options = {
+                    timeZone: timezone === 'UTC' ? 'UTC' : timezone,
+                    hour12: false,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                };
+                
+                const dateOptions = {
+                    timeZone: timezone === 'UTC' ? 'UTC' : timezone,
+                    weekday: 'short',
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                };
+
+                return {
+                    time: date.toLocaleTimeString('en-US', options),
+                    date: date.toLocaleDateString('en-US', dateOptions)
+                };
+            }
+
+            /**
+             * Render all timezone cards
+             */
+            renderTimezones() {
+                const grid = document.getElementById('timezoneGrid');
+                grid.innerHTML = '';
+
+                this.timezones.forEach(tz => {
+                    const card = this.createTimezoneCard(tz);
+                    grid.appendChild(card);
+                });
+            }
+
+            /**
+             * Create a single timezone card
+             */
+            createTimezoneCard(timezone) {
+                const card = document.createElement('div');
+                card.className = `timezone-card ${timezone.cssClass} ${timezone.removable ? '' : 'default'}`;
+                card.dataset.timezoneId = timezone.id;
+
+                const now = new Date();
+                const timeData = this.formatTime(now, timezone.timezone);
+
+                card.innerHTML = `
+                    <div class="timezone-name">${timezone.name}</div>
+                    <div class="timezone-location">${timezone.timezone === 'local' ? 'System Time' : timezone.timezone}</div>
+                    <div class="timezone-time">${timeData.time}</div>
+                    <div class="timezone-date">${timeData.date}</div>
+                    ${timezone.removable ? '<button class="remove-timezone" onclick="worldClock.removeTimezone(\'' + timezone.id + '\')">&times;</button>' : ''}
+                `;
+
+                return card;
+            }
+
+            /**
+             * Update all clocks
+             */
+            updateClocks() {
+                const now = new Date();
+                
+                this.timezones.forEach(tz => {
+                    const card = document.querySelector(`[data-timezone-id="${tz.id}"]`);
+                    if (card) {
+                        const timeData = this.formatTime(now, tz.timezone);
+                        const timeElement = card.querySelector('.timezone-time');
+                        const dateElement = card.querySelector('.timezone-date');
+                        
+                        if (timeElement) timeElement.textContent = timeData.time;
+                        if (dateElement) dateElement.textContent = timeData.date;
+                    }
+                });
+            }
+
+            /**
+             * Start the clock updates
+             */
+            startClock() {
+                // Update immediately
+                this.updateClocks();
+                
+                // Update every second
+                this.updateInterval = setInterval(() => {
+                    this.updateClocks();
+                }, 1000);
+            }
+
+            /**
+             * Stop the clock updates
+             */
+            stopClock() {
+                if (this.updateInterval) {
+                    clearInterval(this.updateInterval);
+                    this.updateInterval = null;
+                }
+            }
+
+            /**
+             * Add a new timezone
+             */
+            addTimezone(timezoneValue) {
+                // Check if timezone already exists
+                if (this.timezones.find(tz => tz.timezone === timezoneValue)) {
+                    alert('هذه المنطقة الزمنية موجودة بالفعل | This timezone is already added');
+                    return;
+                }
+
+                const newTimezone = {
+                    id: 'tz_' + Date.now(),
+                    name: this.getTimezoneDisplayName(timezoneValue),
+                    timezone: timezoneValue,
+                    removable: true,
+                    cssClass: ''
+                };
+
+                this.timezones.push(newTimezone);
+                this.renderTimezones();
+            }
+
+            /**
+             * Remove a timezone
+             */
+            removeTimezone(timezoneId) {
+                this.timezones = this.timezones.filter(tz => tz.id !== timezoneId);
+                this.renderTimezones();
+            }
+
+            /**
+             * Bind event listeners
+             */
+            bindEvents() {
+                const select = document.getElementById('timezoneSelect');
+                const addBtn = document.getElementById('addTimezoneBtn');
+
+                addBtn.addEventListener('click', () => {
+                    const selectedValue = select.value;
+                    if (selectedValue) {
+                        this.addTimezone(selectedValue);
+                        select.value = ''; // Reset selection
+                    } else {
+                        alert('يرجى اختيار منطقة زمنية | Please select a timezone');
+                    }
+                });
+
+                // Allow adding timezone by pressing Enter
+                select.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        addBtn.click();
+                    }
+                });
+
+                // Handle page visibility change to pause/resume updates
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        this.stopClock();
+                    } else {
+                        this.startClock();
+                    }
+                });
+            }
+        }
+
+        // Initialize the world clock when page loads
+        let worldClock;
+        document.addEventListener('DOMContentLoaded', () => {
+            worldClock = new WorldClock();
+        });
+
+        // Cleanup when page unloads
+        window.addEventListener('beforeunload', () => {
+            if (worldClock) {
+                worldClock.stopClock();
+            }
+        });
+    </script>
 </body>
 </html>
