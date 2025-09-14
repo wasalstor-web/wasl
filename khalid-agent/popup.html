@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وكيل خالد الذكي</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 وكيل خالد الذكي</h1>
+            <p>اكتب أمرك بالعربية</p>
+        </div>
+        
+        <div class="command-section">
+            <textarea id="commandInput" placeholder="مثال: اذهب إلى google.com واكتب في البحث: وكيل ذكي"></textarea>
+            <button id="executeBtn">تنفيذ الأمر</button>
+        </div>
+        
+        <div class="examples-section">
+            <button id="examplesBtn">💡 أمثلة</button>
+            <div id="examplesList" class="examples-list hidden">
+                <div class="example" data-command="اذهب إلى google.com">اذهب إلى google.com</div>
+                <div class="example" data-command="اكتب في البحث: وكيل ذكي للمتصفح">اكتب في البحث: وكيل ذكي للمتصفح</div>
+                <div class="example" data-command="اضغط على زر البحث">اضغط على زر البحث</div>
+                <div class="example" data-command="انتقل إلى النتيجة الأولى">انتقل إلى النتيجة الأولى</div>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <details>
+                <summary>⚙️ الإعدادات</summary>
+                <div class="settings-content">
+                    <label>
+                        <input type="checkbox" id="allowAllDomains" checked>
+                        السماح بجميع النطاقات
+                    </label>
+                    <label>
+                        <input type="checkbox" id="showNotifications" checked>
+                        إظهار الإشعارات
+                    </label>
+                </div>
+            </details>
+        </div>
+        
+        <div class="status" id="status"></div>
+        
+        <div class="footer">
+            <small>نفذ بواسطة خالد | v1.0.0</small>
+        </div>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>
