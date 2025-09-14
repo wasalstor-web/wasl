@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار وكيل خالد الذكي</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            direction: rtl;
+        }
+        .section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        input, textarea, button {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .test-form {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+        .links a {
+            display: block;
+            padding: 8px;
+            margin: 5px 0;
+            color: #007bff;
+            text-decoration: none;
+            border: 1px solid #007bff;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .links a:hover {
+            background: #007bff;
+            color: white;
+        }
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🤖 صفحة اختبار وكيل خالد الذكي</h1>
+    
+    <div class="instructions">
+        <h3>تعليمات الاختبار:</h3>
+        <ol>
+            <li>تأكد من تثبيت إضافة "وكيل خالد الذكي" في Chrome</li>
+            <li>اضغط على أيقونة الإضافة في شريط الأدوات</li>
+            <li>جرب الأوامر المختلفة المذكورة أدناه</li>
+            <li>راقب تنفيذ الأوامر على هذه الصفحة</li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>🔍 اختبار البحث والكتابة</h2>
+        <p><strong>جرب الأمر:</strong> "اكتب في البحث: مرحبا خالد"</p>
+        <input type="search" name="search" placeholder="اكتب هنا للبحث..." style="width: 300px;">
+        <button type="submit">🔍 بحث</button>
+    </div>
+
+    <div class="section">
+        <h2>📝 اختبار ملء النماذج</h2>
+        <p><strong>جرب الأمر:</strong> "املأ النموذج: الاسم خالد، الإيميل khalid@test.com، الهاتف 123456789"</p>
+        <div class="test-form">
+            <input type="text" name="name" placeholder="اسم المستخدم">
+            <input type="email" name="email" placeholder="البريد الإلكتروني">
+            <input type="tel" name="phone" placeholder="رقم الهاتف">
+            <textarea name="message" placeholder="رسالتك..."></textarea>
+            <button type="submit">إرسال</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🔗 اختبار الضغط على الروابط</h2>
+        <p><strong>جرب الأمر:</strong> "اضغط على الرابط الأول"</p>
+        <div class="links">
+            <a href="#first">الرابط الأول - لوحة التحكم</a>
+            <a href="#second">الرابط الثاني - الإعدادات</a>
+            <a href="#third">الرابط الثالث - المساعدة</a>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🔘 اختبار الضغط على الأزرار</h2>
+        <p><strong>جرب الأمر:</strong> "اضغط على زر تسجيل الدخول"</p>
+        <button onclick="alert('تم الضغط على زر تسجيل الدخول!')">تسجيل الدخول</button>
+        <button onclick="alert('تم الضغط على زر التسجيل!')">التسجيل</button>
+        <button onclick="alert('تم الضغط على زر المساعدة!')">المساعدة</button>
+    </div>
+
+    <div class="section">
+        <h2>📋 أمثلة إضافية للأوامر</h2>
+        <ul>
+            <li>"اذهب إلى google.com" - للانتقال إلى موقع جوجل</li>
+            <li>"اكتب: مرحبا بالعالم" - للكتابة في أي حقل نشط</li>
+            <li>"اضغط على زر البحث" - للضغط على زر البحث</li>
+            <li>"مرر إلى أعلى الصفحة" - للتمرير إلى أعلى</li>
+            <li>"مرر إلى أسفل الصفحة" - للتمرير إلى أسفل</li>
+            <li>"انتظر 3 ثوان" - للانتظار لمدة معينة</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>📊 نتائج الاختبار</h2>
+        <div id="test-results" style="min-height: 100px; background: white; padding: 10px; border-radius: 4px;">
+            ستظهر نتائج تنفيذ الأوامر هنا...
+        </div>
+    </div>
+
+    <script>
+        // Add some interactivity for testing
+        document.addEventListener('DOMContentLoaded', function() {
+            // Log when elements are interacted with
+            const testResults = document.getElementById('test-results');
+            
+            function logAction(action) {
+                const time = new Date().toLocaleTimeString('ar-SA');
+                testResults.innerHTML += `<div style="margin: 5px 0; padding: 5px; background: #e8f5e8; border-radius: 3px;">
+                    [${time}] ${action}
+                </div>`;
+                testResults.scrollTop = testResults.scrollHeight;
+            }
+            
+            // Monitor form inputs
+            document.querySelectorAll('input, textarea').forEach(element => {
+                element.addEventListener('input', function() {
+                    logAction(`تم الكتابة في حقل: ${this.name || this.placeholder} = "${this.value}"`);
+                });
+            });
+            
+            // Monitor button clicks
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', function() {
+                    logAction(`تم الضغط على زر: "${this.textContent}"`);
+                });
+            });
+            
+            // Monitor link clicks
+            document.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    logAction(`تم الضغط على رابط: "${this.textContent}"`);
+                });
+            });
+            
+            logAction('صفحة الاختبار جاهزة! يمكنك الآن تجربة أوامر وكيل خالد الذكي.');
+        });
+    </script>
+</body>
+</html>
