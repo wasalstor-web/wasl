@@ -1,1 +1,25 @@
-{\n  "manifest_version": 3,\n  "name": "Khalid Web Agent",\n  "version": "1.0.0",\n  "description": "وكيل ينفذ أوامر عربية داخل الصفحات.",\n  "permissions": ["activeTab", "scripting", "tabs", "storage"],\n  "host_permissions": ["<all_urls>"],\n  "action": { "default_popup": "popup.html", "default_title": "Agent" },\n  "icons": { "16": "icon16.png", "48": "icon48.png", "128": "icon128.png" },\n  "content_scripts": [{"matches": ["<all_urls>"],"js": ["content.js"],"run_at": "document_idle"}],\n  "background": { "service_worker": "sw.js" }\n}
+{
+  "manifest_version": 3,
+  "name": "Khalid Web Agent",
+  "version": "1.0.0",
+  "description": "وكيل ينفذ أوامر عربية داخل الصفحات.",
+  "permissions": ["activeTab", "scripting", "tabs", "storage", "notifications", "contextMenus"],
+  "host_permissions": ["<all_urls>"],
+  "action": { 
+    "default_popup": "popup.html", 
+    "default_title": "وكيل خالد الذكي" 
+  },
+  "icons": { 
+    "16": "icon16.png", 
+    "48": "icon48.png", 
+    "128": "icon128.png" 
+  },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content.js"],
+    "run_at": "document_idle"
+  }],
+  "background": { 
+    "service_worker": "sw.js" 
+  }
+}

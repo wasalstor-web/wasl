@@ -1,0 +1,255 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    width: 350px;
+    min-height: 500px;
+    direction: rtl;
+}
+
+.container {
+    padding: 20px;
+    background: white;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.header h1 {
+    color: #4a5568;
+    font-size: 18px;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.header p {
+    color: #718096;
+    font-size: 14px;
+}
+
+.command-section {
+    margin-bottom: 20px;
+}
+
+#commandInput {
+    width: 100%;
+    min-height: 80px;
+    padding: 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+    direction: rtl;
+    text-align: right;
+}
+
+#commandInput:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+#executeBtn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+#executeBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+#executeBtn:active {
+    transform: translateY(0);
+}
+
+.examples-section {
+    margin-bottom: 20px;
+}
+
+#examplesBtn {
+    width: 100%;
+    padding: 10px;
+    background: #f7fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+#examplesBtn:hover {
+    background: #edf2f7;
+    border-color: #cbd5e0;
+}
+
+.examples-list {
+    margin-top: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.examples-list.hidden {
+    display: none;
+}
+
+.example {
+    padding: 10px 12px;
+    background: #f7fafc;
+    border-bottom: 1px solid #e2e8f0;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.2s ease;
+}
+
+.example:last-child {
+    border-bottom: none;
+}
+
+.example:hover {
+    background: #edf2f7;
+    color: #2d3748;
+}
+
+.settings-section {
+    margin-bottom: 20px;
+}
+
+details {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+summary {
+    padding: 10px 12px;
+    background: #f7fafc;
+    cursor: pointer;
+    font-weight: 500;
+    color: #4a5568;
+    list-style: none;
+    transition: background-color 0.2s ease;
+}
+
+summary:hover {
+    background: #edf2f7;
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
+
+.settings-content {
+    padding: 15px 12px;
+    background: white;
+}
+
+.settings-content label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #4a5568;
+}
+
+.settings-content input[type="checkbox"] {
+    margin-left: 8px;
+    transform: scale(1.1);
+    accent-color: #667eea;
+}
+
+.status {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 15px;
+    min-height: 20px;
+    transition: all 0.3s ease;
+}
+
+.status.success {
+    background: #c6f6d5;
+    color: #22543d;
+    border: 1px solid #9ae6b4;
+}
+
+.status.error {
+    background: #fed7d7;
+    color: #742a2a;
+    border: 1px solid #fc8181;
+}
+
+.status.info {
+    background: #bee3f8;
+    color: #2a4365;
+    border: 1px solid #90cdf4;
+}
+
+.footer {
+    text-align: center;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.footer small {
+    color: #a0aec0;
+    font-size: 11px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.container {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}

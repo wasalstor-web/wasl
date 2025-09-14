@@ -1,0 +1,45 @@
+{
+  "name": "khalid-web-agent",
+  "version": "1.0.0",
+  "description": "وكيل خالد الذكي - إضافة متصفح لتنفيذ الأوامر العربية",
+  "main": "manifest.json",
+  "scripts": {
+    "build": "echo 'Chrome extension ready for loading'",
+    "pack": "zip -r khalid-agent.zip . -x '*.git*' 'node_modules/*' 'package*.json'",
+    "lint": "echo 'Linting extension files...'",
+    "test": "echo 'Testing extension functionality...'"
+  },
+  "keywords": [
+    "chrome-extension",
+    "arabic",
+    "automation",
+    "web-agent",
+    "khalid",
+    "browser-extension"
+  ],
+  "author": "Khalid",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wasalstor-web/wasl"
+  },
+  "bugs": {
+    "url": "https://github.com/wasalstor-web/wasl/issues"
+  },
+  "homepage": "https://github.com/wasalstor-web/wasl#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {},
+  "dependencies": {},
+  "files": [
+    "manifest.json",
+    "popup.html",
+    "popup.css", 
+    "popup.js",
+    "content.js",
+    "sw.js",
+    "*.png",
+    "README.md"
+  ]
+}
