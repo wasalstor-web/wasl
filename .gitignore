@@ -6,3 +6,33 @@ dist/
 build/
 coverage/
 *.tgz
+
+# C++ build artifacts
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+
+# Gemma.cpp specific
+gemma/build/
+gemma/models/*.bin
+gemma/models/*.safetensors
+gemma/models/*.gguf
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
