@@ -6,3 +6,16 @@ dist/
 build/
 coverage/
 *.tgz
+
+# Gemma.cpp model files (large files)
+# ملفات نماذج Gemma.cpp (ملفات كبيرة)
+*.bin
+*.sbs
+*.safetensors
+*.gguf
+*.pt
+*.pth
+*.model
+models/
+checkpoints/
+weights/

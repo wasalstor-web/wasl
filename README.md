@@ -34,6 +34,45 @@
 
 ---
 
+## تكامل الذكاء الاصطناعي | AI Integration
+
+### Gemma.cpp - نموذج الذكاء الاصطناعي من جوجل
+
+يحتوي المشروع على تكامل مع **Gemma.cpp** من جوجل كوحدة فرعية Git تحت مسار `gemma/`. هذا يوفر قدرات الذكاء الاصطناعي المحلية للمشروع.
+
+**الميزات:**
+- استنتاج محلي بدون اتصال إنترنت
+- دعم نماذج Gemma 2-3 و PaliGemma 2
+- تنفيذ خفيف ومحسن للأداء
+- دعم اللغة العربية في النصوص
+
+### البدء السريع | Quick Start
+
+```bash
+# تهيئة الوحدة الفرعية
+git submodule update --init --recursive gemma
+
+# اتبع تعليمات التثبيت
+cat gemma-docs/INSTALL.md
+
+# تشغيل النموذج (بعد تنزيل الملفات)
+cd gemma && ../gemma-docs/run-gemma.sh
+```
+
+### الاستخدام المتقدم | Advanced Usage
+
+```bash
+# تشغيل مع نص مخصص
+cd gemma && PROMPT="اشرح لي الذكاء الاصطناعي" ../gemma-docs/run-gemma.sh
+
+# استخدام نموذج مختلف
+cd gemma && MODEL_PATH="./models/9b-it-sfp.sbs" ../gemma-docs/run-gemma.sh
+```
+
+**للتفاصيل الكاملة:** راجع [gemma-docs/WASL_README.md](gemma-docs/WASL_README.md) و [gemma-docs/INSTALL.md](gemma-docs/INSTALL.md)
+
+---
+
 ## دعم وتطوير
 
 - يمكنك دمج الإضافة مع أي مشروع أو مستودع على GitHub.
