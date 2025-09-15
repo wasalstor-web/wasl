@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="لوحة معلومات الطقس - منصة وسل">
+    <meta name="keywords" content="طقس، حالة الجو، وسل، WASL">
+    <meta name="author" content="Wasalstor">
+    <title>لوحة معلومات الطقس | وســـل</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: #eef2f7; 
+            margin: 0; 
+            padding: 20px; 
+            direction: rtl;
+        }
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            text-align: center;
+        }
+        .header {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .logo { 
+            font-size: 2.5em; 
+            color: #1976d2; 
+            margin-bottom: 0.5em; 
+        }
+        h1 { 
+            color: #3b5d7c; 
+            margin: 0;
+        }
+        .weather-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .search-container {
+            margin-bottom: 2rem;
+        }
+        .search-input {
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 250px;
+            margin-left: 10px;
+            direction: ltr;
+            text-align: center;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: #1976d2;
+        }
+        .search-btn {
+            background: #1976d2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .search-btn:hover {
+            background: #1565c0;
+        }
+        .search-btn:disabled {
+            background: #9e9e9e;
+            cursor: not-allowed;
+        }
+        .weather-display {
+            display: none;
+        }
+        .weather-display.show {
+            display: block;
+        }
+        .weather-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1rem 0;
+        }
+        .weather-icon {
+            font-size: 4em;
+            margin: 1rem 0;
+        }
+        .temperature {
+            font-size: 3em;
+            font-weight: bold;
+            color: #1976d2;
+            margin: 0.5rem 0;
+        }
+        .weather-description {
+            font-size: 1.2em;
+            color: #666;
+            margin: 0.5rem 0;
+            text-transform: capitalize;
+        }
+        .weather-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .weather-detail {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .detail-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 0.5rem;
+        }
+        .detail-value {
+            color: #1976d2;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .loading {
+            color: #1976d2;
+            font-size: 1.1em;
+            margin: 2rem 0;
+        }
+        .error {
+            color: #d32f2f;
+            background: #ffebee;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        .back-link {
+            display: inline-block;
+            background: #1976d2;
+            color: white;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 1rem;
+            transition: background 0.3s;
+        }
+        .back-link:hover {
+            background: #1565c0;
+        }
+        .setup-info {
+            background: #e6f3ff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border-right: 4px solid #1976d2;
+        }
+        .setup-info h3 {
+            color: #1976d2;
+            margin-top: 0;
+        }
+        .setup-info p {
+            margin: 0.5rem 0;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🌤️</div>
+            <h1>لوحة معلومات الطقس</h1>
+            <p>تحقق من حالة الطقس في أي مدينة حول العالم</p>
+            <a href="index.html" class="back-link">← العودة للصفحة الرئيسية</a>
+        </div>
+
+        <div class="weather-section">
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    id="cityInput" 
+                    class="search-input" 
+                    placeholder="ادخل اسم المدينة (بالإنجليزية)"
+                    autocomplete="off"
+                >
+                <button id="searchBtn" class="search-btn">بحث</button>
+            </div>
+
+            <div id="loading" class="loading" style="display: none;">
+                جاري تحميل بيانات الطقس...
+            </div>
+
+            <div id="error" class="error" style="display: none;"></div>
+
+            <div id="weatherDisplay" class="weather-display">
+                <div class="weather-card">
+                    <div id="cityName" style="font-size: 1.5em; font-weight: bold; color: #1976d2; margin-bottom: 1rem;"></div>
+                    <div id="weatherIcon" class="weather-icon"></div>
+                    <div id="temperature" class="temperature"></div>
+                    <div id="description" class="weather-description"></div>
+                    
+                    <div class="weather-details">
+                        <div class="weather-detail">
+                            <div class="detail-label">الرطوبة</div>
+                            <div id="humidity" class="detail-value"></div>
+                        </div>
+                        <div class="weather-detail">
+                            <div class="detail-label">سرعة الرياح</div>
+                            <div id="windSpeed" class="detail-value"></div>
+                        </div>
+                        <div class="weather-detail">
+                            <div class="detail-label">الضغط الجوي</div>
+                            <div id="pressure" class="detail-value"></div>
+                        </div>
+                        <div class="weather-detail">
+                            <div class="detail-label">الشعور بالحرارة</div>
+                            <div id="feelsLike" class="detail-value"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="setup-info">
+                <h3>📋 معلومات الإعداد</h3>
+                <p><strong>للمطورين:</strong> تحتاج هذه الصفحة إلى مفتاح API من OpenWeatherMap للعمل بشكل كامل.</p>
+                <p>1. احصل على مفتاح API مجاني من <a href="https://openweathermap.org/api" target="_blank">OpenWeatherMap</a></p>
+                <p>2. أضف المفتاح كمتغير بيئي في ملف .env.local:</p>
+                <p><code>NEXT_PUBLIC_OPENWEATHER_API_KEY=your_api_key_here</code></p>
+                <p>3. في الوقت الحالي، يتم استخدام مفتاح تجريبي محدود لأغراض العرض.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // استخدام مفتاح API تجريبي - يجب استبداله بمفتاح حقيقي في الإنتاج
+        const API_KEY = 'demo_key'; // في البيئة الحقيقية، سيأتي من متغير البيئة
+        const API_URL = 'https://api.openweathermap.org/data/2.5/weather';
+
+        const cityInput = document.getElementById('cityInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const loading = document.getElementById('loading');
+        const error = document.getElementById('error');
+        const weatherDisplay = document.getElementById('weatherDisplay');
+
+        // عناصر عرض البيانات
+        const cityName = document.getElementById('cityName');
+        const weatherIcon = document.getElementById('weatherIcon');
+        const temperature = document.getElementById('temperature');
+        const description = document.getElementById('description');
+        const humidity = document.getElementById('humidity');
+        const windSpeed = document.getElementById('windSpeed');
+        const pressure = document.getElementById('pressure');
+        const feelsLike = document.getElementById('feelsLike');
+
+        // خريطة الأيقونات
+        const weatherIcons = {
+            '01d': '☀️', '01n': '🌙',
+            '02d': '⛅', '02n': '☁️',
+            '03d': '☁️', '03n': '☁️',
+            '04d': '☁️', '04n': '☁️',
+            '09d': '🌧️', '09n': '🌧️',
+            '10d': '🌦️', '10n': '🌧️',
+            '11d': '⛈️', '11n': '⛈️',
+            '13d': '❄️', '13n': '❄️',
+            '50d': '🌫️', '50n': '🌫️'
+        };
+
+        // ترجمة أوصاف الطقس للعربية
+        const weatherTranslations = {
+            'clear sky': 'سماء صافية',
+            'few clouds': 'غيوم قليلة',
+            'scattered clouds': 'غيوم متناثرة',
+            'broken clouds': 'غيوم متقطعة',
+            'shower rain': 'زخات مطر',
+            'rain': 'مطر',
+            'thunderstorm': 'عاصفة رعدية',
+            'snow': 'ثلج',
+            'mist': 'ضباب'
+        };
+
+        function showLoading() {
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            weatherDisplay.classList.remove('show');
+            searchBtn.disabled = true;
+        }
+
+        function hideLoading() {
+            loading.style.display = 'none';
+            searchBtn.disabled = false;
+        }
+
+        function showError(message) {
+            error.textContent = message;
+            error.style.display = 'block';
+            weatherDisplay.classList.remove('show');
+        }
+
+        function displayWeatherData(data) {
+            const temp = Math.round(data.main.temp);
+            const iconCode = data.weather[0].icon;
+            const desc = data.weather[0].description;
+            
+            cityName.textContent = data.name + ', ' + data.sys.country;
+            weatherIcon.textContent = weatherIcons[iconCode] || '🌤️';
+            temperature.textContent = temp + '°C';
+            description.textContent = weatherTranslations[desc] || desc;
+            humidity.textContent = data.main.humidity + '%';
+            windSpeed.textContent = Math.round(data.wind.speed * 3.6) + ' كم/س';
+            pressure.textContent = data.main.pressure + ' hPa';
+            feelsLike.textContent = Math.round(data.main.feels_like) + '°C';
+
+            weatherDisplay.classList.add('show');
+        }
+
+        async function fetchWeatherData(city) {
+            // في هذا المثال، نستخدم بيانات وهمية للعرض
+            // في التطبيق الحقيقي، ستحتاج إلى مفتاح API صحيح
+            
+            if (API_KEY === 'demo_key') {
+                // إرجاع بيانات وهمية للعرض
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        const demoData = {
+                            name: city,
+                            sys: { country: 'Demo' },
+                            main: {
+                                temp: Math.round(Math.random() * 30 + 10),
+                                feels_like: Math.round(Math.random() * 30 + 10),
+                                humidity: Math.round(Math.random() * 50 + 30),
+                                pressure: Math.round(Math.random() * 100 + 1000)
+                            },
+                            weather: [{
+                                description: 'clear sky',
+                                icon: '01d'
+                            }],
+                            wind: {
+                                speed: Math.random() * 10 + 2
+                            }
+                        };
+                        resolve(demoData);
+                    }, 1000);
+                });
+            }
+
+            // الكود الحقيقي للـ API (يتطلب مفتاح صحيح)
+            const url = `${API_URL}?q=${city}&appid=${API_KEY}&units=metric&lang=ar`;
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                throw new Error('لم يتم العثور على المدينة أو حدث خطأ في الشبكة');
+            }
+            
+            return await response.json();
+        }
+
+        async function searchWeather() {
+            const city = cityInput.value.trim();
+            
+            if (!city) {
+                showError('يرجى إدخال اسم المدينة');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                const data = await fetchWeatherData(city);
+                hideLoading();
+                displayWeatherData(data);
+            } catch (err) {
+                hideLoading();
+                showError(err.message || 'حدث خطأ أثناء جلب بيانات الطقس');
+            }
+        }
+
+        // إضافة مستمعي الأحداث
+        searchBtn.addEventListener('click', searchWeather);
+        
+        cityInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchWeather();
+            }
+        });
+
+        // تشغيل بحث تجريبي عند تحميل الصفحة
+        window.addEventListener('load', () => {
+            cityInput.value = 'London';
+            setTimeout(() => {
+                searchWeather();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
