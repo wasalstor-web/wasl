@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { HeroUIProvider, Button, Card, CardBody, CardHeader, Divider, Text, Spacer } from "@heroui/react";
+import { HeroUIProvider, Button, Card, CardBody, CardHeader, Divider, Spacer } from "@heroui/react";
 
 const plans = [
   {
@@ -50,9 +50,9 @@ export default function SubscriptionPageHeroUI() {
       }}>
         {plans.map(plan => (
           <Card key={plan.name} className="max-w-[320px] min-h-[400px] shadow-xl" isBlurred>
-            <CardHeader className={`flex flex-col items-center py-6`} style={{background: 'linear-gradient(90deg, rgba(99,102,241,1) 0%, rgba(236,72,153,1) 100%)'}}>
-              <Text h2 className="text-white">{plan.name}</Text>
-              <Text h4 className="text-white">{plan.price}</Text>
+            <CardHeader className="flex flex-col items-center py-6" style={{background: 'linear-gradient(90deg, rgba(99,102,241,1) 0%, rgba(236,72,153,1) 100%)'}}>
+              <h2 className="text-white text-2xl font-bold">{plan.name}</h2>
+              <h4 className="text-white text-lg">{plan.price}</h4>
             </CardHeader>
             <Divider />
             <CardBody className="p-6">

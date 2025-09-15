@@ -6,3 +6,10 @@ dist/
 build/
 coverage/
 *.tgz
+
+# Next.js
+.next/
+out/
+
+# Dependencies
+package-lock.json
