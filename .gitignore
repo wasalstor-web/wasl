@@ -6,3 +6,21 @@ dist/
 build/
 coverage/
 *.tgz
+
+# C++ and Gemma.cpp build artifacts
+*.o
+*.so
+*.a
+*.dylib
+*.dll
+*.exe
+gemma-cpp/build/
+gemma-cpp/bazel-*
+*.sbs
+*.spm
+*.log
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+compile_commands.json
