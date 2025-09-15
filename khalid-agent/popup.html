@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وكيل خالد الذكي</title>
+    <style>
+        body {
+            width: 350px;
+            min-height: 400px;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            direction: rtl;
+        }
+        
+        .header {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .content {
+            padding: 20px;
+        }
+        
+        .command-input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            direction: rtl;
+        }
+        
+        .execute-btn {
+            width: 100%;
+            padding: 12px;
+            background: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-bottom: 15px;
+        }
+        
+        .execute-btn:hover {
+            background: #3367d6;
+        }
+        
+        .google-features {
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .google-features h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #fff;
+        }
+        
+        .feature-btn {
+            display: block;
+            width: 100%;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-bottom: 5px;
+            text-align: right;
+            transition: background 0.3s;
+        }
+        
+        .feature-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .examples {
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .examples h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+        }
+        
+        .example {
+            background: rgba(255,255,255,0.1);
+            padding: 8px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .example:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .status {
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 15px;
+            font-size: 12px;
+            text-align: center;
+        }
+        
+        .google-logo {
+            display: inline-block;
+            font-weight: bold;
+            background: linear-gradient(45deg, #4285f4, #34a853, #fbbc05, #ea4335);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>
+            🤖 وكيل خالد الذكي
+            <span class="google-logo">مدعوم بجوجل</span>
+        </h1>
+    </div>
+    
+    <div class="content">
+        <input type="text" id="commandInput" class="command-input" 
+               placeholder="اكتب أمرك هنا... (مثال: اذهب إلى wasl.store)">
+        
+        <button id="executeBtn" class="execute-btn">
+            🚀 تنفيذ الأمر
+        </button>
+        
+        <div class="google-features">
+            <h3>🌟 مميزات جوجل المدمجة</h3>
+            <button class="feature-btn" onclick="executeCommand('حلل الصفحة')">
+                🔍 تحليل الصفحة بالذكاء الاصطناعي
+            </button>
+            <button class="feature-btn" onclick="executeCommand('اقترح إجراءات')">
+                💡 اقتراحات ذكية للإجراءات
+            </button>
+            <button class="feature-btn" onclick="executeCommand('لخص المحتوى')">
+                📄 تلخيص المحتوى
+            </button>
+            <button class="feature-btn" onclick="executeCommand('افتح خرائط جوجل')">
+                🗺️ فتح خرائط جوجل
+            </button>
+            <button class="feature-btn" onclick="executeCommand('ترجم الصفحة')">
+                🌍 ترجمة الصفحة
+            </button>
+        </div>
+        
+        <div class="examples">
+            <h3>💡 أمثلة سريعة</h3>
+            
+            <div class="example" onclick="setCommand(this.textContent)">
+                اذهب إلى wasl.store
+            </div>
+            
+            <div class="example" onclick="setCommand(this.textContent)">
+                ابحث عن خدمات النقل في الرياض
+            </div>
+            
+            <div class="example" onclick="setCommand(this.textContent)">
+                املأ النموذج بـ "شركة النقل السريع"
+            </div>
+            
+            <div class="example" onclick="setCommand(this.textContent)">
+                اضغط على زر تسجيل الدخول
+            </div>
+            
+            <div class="example" onclick="setCommand(this.textContent)">
+                افتح موقع google.com
+            </div>
+            
+            <div class="example" onclick="setCommand(this.textContent)">
+                ابحث في جوجل عن "منصة وسل"
+            </div>
+        </div>
+        
+        <div id="status" class="status">
+            🟢 جاهز للتنفيذ
+        </div>
+    </div>
+
+    <script>
+        const commandInput = document.getElementById('commandInput');
+        const executeBtn = document.getElementById('executeBtn');
+        const status = document.getElementById('status');
+
+        // Focus on input when popup opens
+        window.addEventListener('load', () => {
+            commandInput.focus();
+        });
+
+        // Execute command on Enter key
+        commandInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                executeCommand();
+            }
+        });
+
+        // Execute command on button click
+        executeBtn.addEventListener('click', executeCommand);
+
+        function executeCommand(command = null) {
+            const cmd = command || commandInput.value.trim();
+            
+            if (!cmd) {
+                updateStatus('❌ يرجى كتابة أمر أولاً');
+                return;
+            }
+
+            updateStatus('⏳ جاري التنفيذ...');
+
+            // Send command to content script
+            chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+                chrome.tabs.sendMessage(tabs[0].id, {
+                    action: 'executeCommand',
+                    command: cmd
+                }, (response) => {
+                    if (chrome.runtime.lastError) {
+                        updateStatus('❌ خطأ في التنفيذ');
+                    } else {
+                        updateStatus('✅ تم التنفيذ بنجاح');
+                        if (!command) {
+                            commandInput.value = '';
+                        }
+                        
+                        // Close popup after successful execution
+                        setTimeout(() => {
+                            window.close();
+                        }, 1000);
+                    }
+                });
+            });
+
+            // Track command usage
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'command_executed', {
+                    command_type: cmd.split(' ')[0],
+                    extension_version: '2.0'
+                });
+            }
+        }
+
+        function setCommand(command) {
+            commandInput.value = command;
+            commandInput.focus();
+        }
+
+        function updateStatus(message) {
+            status.textContent = message;
+            status.style.background = message.includes('❌') ? 'rgba(244, 67, 54, 0.3)' :
+                                    message.includes('✅') ? 'rgba(76, 175, 80, 0.3)' :
+                                    message.includes('⏳') ? 'rgba(255, 193, 7, 0.3)' :
+                                    'rgba(255,255,255,0.1)';
+        }
+
+        // Enhanced keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl+Shift+G for Google features
+            if (e.ctrlKey && e.shiftKey && e.key === 'G') {
+                executeCommand('حلل الصفحة');
+            }
+            
+            // Ctrl+Shift+M for Maps
+            if (e.ctrlKey && e.shiftKey && e.key === 'M') {
+                executeCommand('افتح خرائط جوجل');
+            }
+            
+            // Ctrl+Shift+T for Translate
+            if (e.ctrlKey && e.shiftKey && e.key === 'T') {
+                executeCommand('ترجم الصفحة');
+            }
+        });
+
+        // Add Google AI suggestions based on current page
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+            const url = tabs[0].url;
+            const suggestions = document.createElement('div');
+            suggestions.className = 'google-features';
+            suggestions.innerHTML = '<h3>🎯 اقتراحات للصفحة الحالية</h3>';
+            
+            if (url.includes('google.com')) {
+                suggestions.innerHTML += '<button class="feature-btn" onclick="executeCommand(\'ابحث عن منصة وسل\')">🔍 ابحث عن منصة وسل</button>';
+            } else if (url.includes('wasl.store')) {
+                suggestions.innerHTML += '<button class="feature-btn" onclick="executeCommand(\'اضغط على تسجيل الدخول\')">🔐 تسجيل الدخول</button>';
+                suggestions.innerHTML += '<button class="feature-btn" onclick="executeCommand(\'افتح خريطة الخدمات\')">🗺️ عرض الخريطة</button>';
+            } else {
+                suggestions.innerHTML += '<button class="feature-btn" onclick="executeCommand(\'اذهب إلى wasl.store\')">🏠 العودة لوسل</button>';
+            }
+            
+            document.querySelector('.content').appendChild(suggestions);
+        });
+    </script>
+</body>
+</html>
