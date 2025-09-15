@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            width: 350px;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: 0;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .subtitle {
+            font-size: 12px;
+            opacity: 0.8;
+            margin: 5px 0 0 0;
+        }
+        .input-section {
+            margin: 20px 0;
+        }
+        .command-input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+            direction: rtl;
+            text-align: right;
+        }
+        .button-row {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #45a049;
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .examples {
+            margin-top: 15px;
+            font-size: 11px;
+        }
+        .example-item {
+            background: rgba(255,255,255,0.1);
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .example-item:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .status {
+            font-size: 12px;
+            text-align: center;
+            margin-top: 15px;
+            padding: 8px;
+            border-radius: 4px;
+            display: none;
+        }
+        .status.success {
+            background: rgba(76, 175, 80, 0.3);
+            border: 1px solid #4CAF50;
+        }
+        .status.error {
+            background: rgba(244, 67, 54, 0.3);
+            border: 1px solid #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🤖</div>
+        <h1 class="title">وكيل خالد الذكي</h1>
+        <p class="subtitle">تنفيذ الأوامر العربية بذكاء</p>
+    </div>
+
+    <div class="input-section">
+        <textarea 
+            id="commandInput" 
+            class="command-input" 
+            placeholder="اكتب أمرك هنا مثل: اذهب إلى google.com واكتب في البحث 'وكيل ذكي'"
+            rows="3"
+        ></textarea>
+    </div>
+
+    <div class="button-row">
+        <button id="executeBtn" class="btn btn-primary">🚀 تنفيذ</button>
+        <button id="clearBtn" class="btn btn-secondary">🗑️ مسح</button>
+    </div>
+
+    <div class="button-row">
+        <button id="examplesBtn" class="btn btn-secondary">💡 أمثلة</button>
+        <button id="helpBtn" class="btn btn-secondary">❓ مساعدة</button>
+    </div>
+
+    <div id="examples" class="examples" style="display: none;">
+        <div class="example-item" data-command="اذهب إلى google.com">
+            🌐 اذهب إلى google.com
+        </div>
+        <div class="example-item" data-command="اكتب في البحث: وكيل ذكي للمتصفح">
+            🔍 اكتب في البحث: وكيل ذكي للمتصفح
+        </div>
+        <div class="example-item" data-command="اضغط على زر البحث">
+            🔘 اضغط على زر البحث
+        </div>
+        <div class="example-item" data-command="افتح الرابط الأول">
+            🔗 افتح الرابط الأول
+        </div>
+    </div>
+
+    <div id="status" class="status"></div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
